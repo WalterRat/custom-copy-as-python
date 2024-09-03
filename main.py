@@ -13,6 +13,11 @@ with open(output_file, 'w', encoding='utf-8') as f:
 
 # Функция, которая будет сохранять каждый перехваченный запрос и генерировать код
 def request(flow: http.HTTPFlow) -> None:
+    """
+    Обрабатывает каждый перехваченный запрос и генерирует Python-код для его воспроизведения.
+
+    :param flow: объект HTTPFlow, представляющий перехваченный HTTP-запрос.
+    """
     entry = {
         "url": flow.request.url,
         "method": flow.request.method,
@@ -43,11 +48,11 @@ def request(flow: http.HTTPFlow) -> None:
             f.write("\n")
 
         # Завершение записи запроса
-        f.write(f")\n\n")
+        f.write(")\n\n")
 
-        # Опционально: добавляем вывод статуса и содержимого ответа для отладки
+        # Добавляем вывод статуса и содержимого ответа для отладки
         f.write(f"print(f'Status: {{response_{i + 1}.status_code}}')\n")
         f.write(f"print(response_{i + 1}.text)\n\n")
 
+    # Выводим информацию о сохраненном запросе
     print(f"Запрос {i + 1} сохранен в {output_file}")
-
